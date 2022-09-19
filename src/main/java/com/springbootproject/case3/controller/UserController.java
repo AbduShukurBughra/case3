@@ -1,8 +1,10 @@
 package com.springbootproject.case3.controller;
 
+import com.springbootproject.case3.dto.UserDto;
 import com.springbootproject.case3.entity.User;
 import com.springbootproject.case3.service.UserEntityService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,10 +17,11 @@ public class UserController {
     private UserEntityService userEntityService;
 
 //   •	Tüm kullanıcıları getiren bir servis yazınız.
-//    @GetMapping("users/")
-//    public ResponseEntity findAllUser(){
-//        List<User> users = userEntityService.findAllUser();
-//        return ResponseEntity.ok();
+    @GetMapping()
+    public ResponseEntity findAllUser(){
+        List<User> users = userEntityService.findAllUser();
+        return ResponseEntity.ok(users);
+    }
 
     //   •	Kullanıcı idsinden kullanıcıyı getiren bir servis yazınız.
     @GetMapping("/user/{id}")
@@ -48,8 +51,8 @@ public class UserController {
 
     //   •	Kullanıcı bilgilerini güncelleyebilecek bir servis yazınız.
     @PutMapping("/user/{id}")
-    public String updateUser(@PathVariable Long id, @RequestBody User user) {
-        userEntityService.updateUser(id, user);
+    public String updateUser(@PathVariable Long id, @RequestBody UserDto userDto) {
+        userEntityService.updateUser(id, userDto);
         return "idsi " + id + " olan kullanici bilgileri güncellendi.";
     }
 

@@ -1,6 +1,7 @@
 package com.springbootproject.case3.service;
 
 import com.springbootproject.case3.dao.UserDao;
+import com.springbootproject.case3.dto.UserDto;
 import com.springbootproject.case3.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -33,16 +34,17 @@ public class UserEntityService {
         userDao.deleteById(id);
     }
 
-    public void updateUser(Long id, User user) {
+    public void updateUser(Long id, UserDto userDto) {
         // 1. id arkilik user ni tapimiz, buning ismi userFromDb
         Optional<User> userFromDb = userDao.findUserById(id);
         if (userFromDb.isPresent()) {
             // 2. user diki uchurni elip userFromDb ning ustige saklaymiz
             User user1 = new User();
-            user1.setId(user.getId());
-            user1.setName(user.getName());
-            user1.setEmail(user.getEmail());
-            user1.setPhoneNumber(user.getPhoneNumber());
+            user1.setId(id);
+            user1.setName(userDto.getName());
+            user1.setEmail(userDto.getEmail());
+            user1.setPhoneNumber(userDto.getPhoneNumber());
+            user1.setUsertype(userDto.getUsertype());
             userDao.save(user1);
         }else {
             throw new NotFoundException("id is: "+id+" user not found");
